@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+model Store {
+  shop          String   @id
+  domain        String?
+  installedAt   DateTime @default(now())
+  uninstalledAt DateTime?
+  isActive      Boolean  @default(true)
+  settings      String   @default("{}")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model VisitorSession {
+  id          String   @id @default(cuid())
+  shop        String
+  sessionId   String
+  ip          String
+  city        String?
+  country     String?
+  countryCode String?
+  latitude    Float?
+  longitude   Float?
+  userAgent   String?
+  firstSeen   DateTime @default(now())
+  lastSeen    DateTime @updatedAt
+  isActive    Boolean  @default(true)
+  visitEvents VisitEvent[]
+
+  @@unique([shop, sessionId])
+  @@index([shop, lastSeen])
+  @@index([shop, isActive])
+  @@index([shop, firstSeen])
+}
+
+model VisitEvent {
+  id        String   @id @default(cuid())
+  shop      String
+  sessionId String
+  pageUrl   String
+  referrer  String?
+  createdAt DateTime @default(now())
+
+  visitor VisitorSession @relation(fields: [shop, sessionId], references: [shop, sessionId], onDelete: Cascade)
+
+  @@index([shop, createdAt])
+  @@index([shop, sessionId])
+}
+
+model DomainMapping {
+  id        String   @id @default(cuid())
+  shop      String
+  domain    String   @unique
+  createdAt DateTime @default(now())
+
+  @@index([shop])
+}

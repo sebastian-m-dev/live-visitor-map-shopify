@@ -1,0 +1,22 @@
+[[extensions]]
+type = "web_pixel"
+name = "LVM Visitor Pixel"
+handle = "lvm-visitor-pixel"
+
+[extensions.runtime]
+context = "worker"
+
+[extensions.settings]
+type = "object"
+
+[[extensions.settings.fields]]
+key = "tracking_url"
+type = "single_line_text_field"
+label = "Tracking API URL"
+default = "https://test.sebastianmorales.site/tracking"
+
+[[extensions.settings.fields]]
+key = "session_ttl_minutes"
+type = "integer"
+label = "Session TTL (minutes)"
+default = 30

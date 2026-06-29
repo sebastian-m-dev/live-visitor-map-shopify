@@ -1,0 +1,54 @@
+client_id = "271e8492efc687fd3a3992248b4c7722"
+
+[access_scopes]
+scopes = "write_web_pixels,read_web_pixels"
+
+[[extensions]]
+type = "web_pixel"
+name = "LVM Visitor Pixel"
+handle = "lvm-visitor-pixel"
+
+[extensions.settings]
+type = "object"
+
+[[extensions.settings.fields]]
+key = "tracking_url"
+type = "single_line_text_field"
+label = "Tracking API URL"
+default = "https://your-app-domain.com/tracking"
+
+[[extensions.settings.fields]]
+key = "session_ttl_minutes"
+type = "integer"
+label = "Session TTL (minutes)"
+default = 30
+
+[webhooks]
+api_version = "2025-10"
+
+[[webhooks.subscriptions]]
+uri = "/webhooks/app/uninstalled"
+topics = ["app/uninstalled"]
+
+[[webhooks.subscriptions]]
+uri = "/webhooks/app/scopes_update"
+topics = ["app/scopes_update"]
+
+[[webhooks.subscriptions]]
+uri = "/webhooks/customers/data_request"
+compliance_topics = ["customers/data_request"]
+
+[[webhooks.subscriptions]]
+uri = "/webhooks/customers/redact"
+compliance_topics = ["customers/redact"]
+
+[[webhooks.subscriptions]]
+uri = "/webhooks/shop/redact"
+compliance_topics = ["shop/redact"]
+
+[[external_services]]
+name = "ipinfo.io"
+type = "geolocation"
+endpoint = "https://ipinfo.io/"
+description = "Resolve visitor IP to city-level location"
+privacy_policy_url = "https://ipinfo.io/privacy"
