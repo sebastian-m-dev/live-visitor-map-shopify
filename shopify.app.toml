@@ -1,7 +1,13 @@
 client_id = "271e8492efc687fd3a3992248b4c7722"
+name = "Live Visitor Map"
+application_url = "https://live-visitor-map-production.up.railway.app"
+embedded = true
 
 [access_scopes]
 scopes = "write_web_pixels,read_web_pixels"
+
+[auth]
+redirect_urls = ["https://live-visitor-map-production.up.railway.app/auth/callback"]
 
 [[extensions]]
 type = "web_pixel"
@@ -15,7 +21,7 @@ type = "object"
 key = "tracking_url"
 type = "single_line_text_field"
 label = "Tracking API URL"
-default = "https://your-app-domain.com/tracking"
+default = "https://live-visitor-map-production.up.railway.app/tracking"
 
 [[extensions.settings.fields]]
 key = "session_ttl_minutes"
